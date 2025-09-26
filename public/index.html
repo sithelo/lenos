@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lenos - Powder Coating Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h1>Lenos</h1>
+            <span>Powder Coating Management</span>
+        </div>
+        <div class="nav-menu">
+            <a href="#dashboard" class="nav-link active" data-section="dashboard">Dashboard</a>
+            <a href="#jobs" class="nav-link" data-section="jobs">Jobs</a>
+            <a href="#customers" class="nav-link" data-section="customers">Customers</a>
+            <a href="#inventory" class="nav-link" data-section="inventory">Inventory</a>
+            <a href="#invoices" class="nav-link" data-section="invoices">Invoices</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="section active">
+            <h2>Dashboard</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Jobs</h3>
+                    <div class="stat-number" id="total-jobs">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Pending Jobs</h3>
+                    <div class="stat-number" id="pending-jobs">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Completed Jobs</h3>
+                    <div class="stat-number" id="completed-jobs">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Revenue</h3>
+                    <div class="stat-number" id="total-revenue">$0</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Jobs Section -->
+        <section id="jobs-section" class="section">
+            <div class="section-header">
+                <h2>Jobs</h2>
+                <button class="btn btn-primary" data-modal="job-modal">Add Job</button>
+            </div>
+            <div class="table-container">
+                <table id="jobs-table">
+                    <thead>
+                        <tr>
+                            <th>Job Number</th>
+                            <th>Customer</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Quoted Price</th>
+                            <th>Scheduled Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jobs-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Customers Section -->
+        <section id="customers-section" class="section">
+            <div class="section-header">
+                <h2>Customers</h2>
+                <button class="btn btn-primary" data-modal="customer-modal">Add Customer</button>
+            </div>
+            <div class="table-container">
+                <table id="customers-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customers-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Inventory Section -->
+        <section id="inventory-section" class="section">
+            <div class="section-header">
+                <h2>Inventory</h2>
+                <button class="btn btn-primary" data-modal="inventory-modal">Add Item</button>
+            </div>
+            <div class="table-container">
+                <table id="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Stock</th>
+                            <th>Unit Cost</th>
+                            <th>Supplier</th>
+                            <th>Reorder Level</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Invoices Section -->
+        <section id="invoices-section" class="section">
+            <div class="section-header">
+                <h2>Invoices</h2>
+                <button class="btn btn-primary" data-modal="invoice-modal">Create Invoice</button>
+            </div>
+            <div class="table-container">
+                <table id="invoices-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice Number</th>
+                            <th>Job Number</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Issue Date</th>
+                            <th>Due Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoices-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <!-- Customer Modal -->
+    <div id="customer-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Customer</h3>
+                <span class="close" data-close="customer-modal">&times;</span>
+            </div>
+            <form id="customer-form">
+                <div class="form-group">
+                    <label for="customer-name">Name</label>
+                    <input type="text" id="customer-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-email">Email</label>
+                    <input type="email" id="customer-email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="customer-phone">Phone</label>
+                    <input type="tel" id="customer-phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="customer-address">Address</label>
+                    <textarea id="customer-address" name="address" rows="3"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close="customer-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Job Modal -->
+    <div id="job-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Job</h3>
+                <span class="close" data-close="job-modal">&times;</span>
+            </div>
+            <form id="job-form">
+                <div class="form-group">
+                    <label for="job-customer">Customer</label>
+                    <select id="job-customer" name="customer_id" required>
+                        <option value="">Select Customer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="job-description">Description</label>
+                    <textarea id="job-description" name="description" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="job-price">Quoted Price</label>
+                    <input type="number" id="job-price" name="quoted_price" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="job-scheduled-date">Scheduled Date</label>
+                    <input type="date" id="job-scheduled-date" name="scheduled_date">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close="job-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Job</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Inventory Modal -->
+    <div id="inventory-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Inventory Item</h3>
+                <span class="close" data-close="inventory-modal">&times;</span>
+            </div>
+            <form id="inventory-form">
+                <div class="form-group">
+                    <label for="inventory-name">Name</label>
+                    <input type="text" id="inventory-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="inventory-type">Type</label>
+                    <select id="inventory-type" name="type">
+                        <option value="powder">Powder</option>
+                        <option value="chemical">Chemical</option>
+                        <option value="consumable">Consumable</option>
+                        <option value="equipment">Equipment</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="inventory-stock">Stock Quantity</label>
+                    <input type="number" id="inventory-stock" name="quantity_in_stock" required>
+                </div>
+                <div class="form-group">
+                    <label for="inventory-cost">Unit Cost</label>
+                    <input type="number" id="inventory-cost" name="unit_cost" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="inventory-supplier">Supplier</label>
+                    <input type="text" id="inventory-supplier" name="supplier">
+                </div>
+                <div class="form-group">
+                    <label for="inventory-reorder">Reorder Level</label>
+                    <input type="number" id="inventory-reorder" name="reorder_level">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close="inventory-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Invoice Modal -->
+    <div id="invoice-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Invoice</h3>
+                <span class="close" data-close="invoice-modal">&times;</span>
+            </div>
+            <form id="invoice-form">
+                <div class="form-group">
+                    <label for="invoice-job">Job</label>
+                    <select id="invoice-job" name="job_id" required>
+                        <option value="">Select Job</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="invoice-amount">Amount</label>
+                    <input type="number" id="invoice-amount" name="amount" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="invoice-due-date">Due Date</label>
+                    <input type="date" id="invoice-due-date" name="due_date" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close="invoice-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Invoice</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Quality Check Modal -->
+    <div id="quality-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Quality Check</h3>
+                <span class="close" data-close="quality-modal">&times;</span>
+            </div>
+            <form id="quality-form">
+                <input type="hidden" id="quality-job-id" name="job_id">
+                <div class="form-group">
+                    <label for="quality-type">Check Type</label>
+                    <select id="quality-type" name="check_type" required>
+                        <option value="visual">Visual Inspection</option>
+                        <option value="thickness">Coating Thickness</option>
+                        <option value="adhesion">Adhesion Test</option>
+                        <option value="color-match">Color Match</option>
+                        <option value="finish">Finish Quality</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quality-result">Result</label>
+                    <select id="quality-result" name="result" required>
+                        <option value="pass">Pass</option>
+                        <option value="fail">Fail</option>
+                        <option value="conditional">Conditional Pass</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quality-notes">Notes</label>
+                    <textarea id="quality-notes" name="notes" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="quality-checked-by">Checked By</label>
+                    <input type="text" id="quality-checked-by" name="checked_by" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close="quality-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Check</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
