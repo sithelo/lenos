@@ -1,0 +1,51 @@
+name: Build and deploy to Azure Container Apps
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 'Login to Azure'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup Azure CLI
+        uses: azure/CLI@v1
+        with:
+          azcliversion: latest
+
+      - name: Build and push API image to ACR
+        env:
+          ACR_NAME: ${{ secrets.ACR_NAME }}
+        run: |
+          az acr build -r $ACR_NAME -t ${ACR_NAME}.azurecr.io/aspire-lenos-api:${{ github.sha }} ./aspire_lenos.Api
+
+      - name: Build and push Web image to ACR
+        env:
+          ACR_NAME: ${{ secrets.ACR_NAME }}
+        run: |
+          az acr build -r $ACR_NAME -t ${ACR_NAME}.azurecr.io/aspire-lenos-web:${{ github.sha }} ./aspire_lenos.Web
+
+      - name: Update Container App - API
+        env:
+          RG: ${{ secrets.RESOURCE_GROUP }}
+          ACR_NAME: ${{ secrets.ACR_NAME }}
+          CONTAINERAPPS_ENV: ${{ secrets.CONTAINERAPPS_ENV }}
+        run: |
+          az containerapp update -g $RG -n aspire-lenos-api --image ${ACR_NAME}.azurecr.io/aspire-lenos-api:${{ github.sha }}
+
+      - name: Update Container App - Web
+        env:
+          RG: ${{ secrets.RESOURCE_GROUP }}
+          ACR_NAME: ${{ secrets.ACR_NAME }}
+          CONTAINERAPPS_ENV: ${{ secrets.CONTAINERAPPS_ENV }}
+        run: |
+          az containerapp update -g $RG -n aspire-lenos-web --image ${ACR_NAME}.azurecr.io/aspire-lenos-web:${{ github.sha }}

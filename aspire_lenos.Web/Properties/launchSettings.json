@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "dev": {
+      "commandName": "Executable",
+      "executablePath": "npm",
+      "commandLineArgs": "run dev",
+      "workingDirectory": ".",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "NODE_ENV": "development"
+      }
+    }
+  }
+}
